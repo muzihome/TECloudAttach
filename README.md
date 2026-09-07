@@ -176,10 +176,10 @@
 | 请求超时(秒) | 5 | COS API 请求总超时时间，网络较差时可适当增大 |
 | 上传图片自动转换 WebP | 动态默认 | 全新安装时根据环境自动检测：支持 WebP 转换则默认开启，否则关闭。已保存过配置的用户不受影响。开启后上传图片时自动转换为 WebP 并一同上传，详见[WebP 自动转换](#webp-自动转换) |
 | WebP 转换质量 | 80 | 0-100，推荐 75-85，越大画质越好文件越大（仅在开启 WebP 转换时显示） |
-| 需要转换为 WebP 的格式 | `jpg,jpeg,png,avif,tiff,tif` | 逗号分隔的扩展名列表（仅在开启 WebP 转换时显示）。`jpg/jpeg/png/bmp` 由 GD 库转换；`tif/tiff` 需 `php-imagick` 扩展（推荐，不依赖 exec）或 `cwebp` 命令行工具（需 PHP exec 可用），GD 库不支持 TIFF 解码；`avif` 为 AVIF 原图转换为 WebP，供不支持 AVIF 的浏览器回退。建议不要包含 `gif`（动图转换会丢失动画）和 `webp`（已是目标格式），详见[格式支持与环境要求](#格式支持与环境要求) |
+| 需要转换为 WebP 的格式 | `jpg,jpeg,png,bmp,avif,tiff,tif` | 逗号分隔的扩展名列表（仅在开启 WebP 转换时显示）。`jpg/jpeg/png/bmp` 由 GD 库转换；`tif/tiff` 需 `php-imagick` 扩展（推荐，不依赖 exec）或 `cwebp` 命令行工具（需 PHP exec 可用），GD 库不支持 TIFF 解码；`avif` 为 AVIF 原图转换为 WebP，供不支持 AVIF 的浏览器回退。建议不要包含 `gif`（动图转换会丢失动画）、`svg`（矢量图无需转换）和 `webp`（已是目标格式），详见[格式支持与环境要求](#格式支持与环境要求) |
 | 上传图片自动转换 AVIF | 动态默认 | 全新安装时根据环境自动检测：支持 AVIF 转换则默认开启，否则关闭。已保存过配置的用户不受影响。开启后上传图片时自动转换为 AVIF 并一同上传，详见[AVIF 自动转换](#avif-自动转换) |
 | AVIF 转换质量 | 50 | 0-100，推荐 40-60，越大画质越好文件越大（仅在开启 AVIF 转换时显示） |
-| 需要转换为 AVIF 的格式 | `jpg,jpeg,png,webp,tiff,tif` | 逗号分隔的扩展名列表（仅在开启 AVIF 转换时显示）。`jpg/jpeg/png/bmp` 由 GD 库转换；`webp` 为 WebP 原图转换为 AVIF（AVIF 压缩率更高）；`tif/tiff` 需 Imagick 扩展（GD 不支持 TIFF 解码，采用混合解码模式：Imagick 解码为临时 PNG 再交 GD 编码 AVIF，或 Imagick 编译 libheif 直接编码）。建议不要包含 `gif`（动图转换会丢失动画）和 `avif`（已是目标格式） |
+| 需要转换为 AVIF 的格式 | `jpg,jpeg,png,bmp,webp,tiff,tif` | 逗号分隔的扩展名列表（仅在开启 AVIF 转换时显示）。`jpg/jpeg/png/bmp` 由 GD 库转换；`webp` 为 WebP 原图转换为 AVIF（AVIF 压缩率更高）；`tif/tiff` 需 Imagick 扩展（GD 不支持 TIFF 解码，采用混合解码模式：Imagick 解码为临时 PNG 再交 GD 编码 AVIF，或 Imagick 编译 libheif 直接编码）。建议不要包含 `gif`（动图转换会丢失动画）、`svg`（矢量图无需转换）和 `avif`（已是目标格式） |
 | 本地删除同步删除 COS 文件 | 关闭 | 在后台删除附件时，是否同步删除 COS 上的文件 |
 | 在本地保存 | 关闭 | 上传文件时是否在服务器本地保留一份副本（占用磁盘，但可减少 COS 请求） |
 | 删除时同步删除本地备份 | 关闭 | 删除附件时是否同步删除本地备份（独立于「在本地保存」开关，只要本地存在对应文件即会清理） |
@@ -571,7 +571,7 @@ AVIF 浏览器支持率约 80%（Chrome 85+、Firefox 93+、Safari 16+）。插�
 ### WebP 转换没有生效？
 
 1. 确认「上传图片自动转换 WebP」已开启
-2. 确认文件扩展名在「需要转换为 WebP 的格式」列表中（默认 `jpg,jpeg,png,avif,tiff,tif`）
+2. 确认文件扩展名在「需要转换为 WebP 的格式」列表中（默认 `jpg,jpeg,png,bmp,avif,tiff,tif`）
 3. 在「运行状态」Tab 确认 WebP 转换支持和转换引擎
 4. 确认转换引擎可用：
    - GD 方式：`php -r "var_dump(gd_info()['WebP Support']);"` 应输出 `bool(true)`
@@ -582,7 +582,7 @@ AVIF 浏览器支持率约 80%（Chrome 85+、Firefox 93+、Safari 16+）。插�
 ### AVIF 转换没有生效？
 
 1. 确认「上传图片自动转换 AVIF」已开启
-2. 确认文件扩展名在「需要转换为 AVIF 的格式」列表中（默认 `jpg,jpeg,png,webp,tiff,tif`）
+2. 确认文件扩展名在「需要转换为 AVIF 的格式」列表中（默认 `jpg,jpeg,png,bmp,webp,tiff,tif`）
 3. 在「运行状态」Tab 确认 AVIF 转换支持和引擎
 4. 确认转换引擎可用：
    - GD 方式：`php -r "var_dump(function_exists('imageavif'));"` 应输出 `bool(true)`

@@ -1,0 +1,99 @@
+# 自动检测文本文件并规范化行尾符
+* text=auto
+
+# PHP 源码：强制 LF 行尾符
+*.php text eol=lf
+*.phtml text eol=lf
+
+# 文档：强制 LF 行尾符
+*.md text eol=lf
+*.markdown text eol=lf
+*.txt text eol=lf
+*.rst text eol=lf
+
+# 配置文件：强制 LF 行尾符
+*.json text eol=lf
+*.xml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.ini text eol=lf
+*.conf text eol=lf
+*.dist text eol=lf
+
+# 前端资源：强制 LF 行尾符
+*.css text eol=lf
+*.scss text eol=lf
+*.less text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.vue text eol=lf
+*.html text eol=lf
+*.htm text eol=lf
+
+# Shell 脚本：强制 LF 行尾符
+*.sh text eol=lf
+*.bash text eol=lf
+
+# 二进制文件：不进行文本转换，标记为二进制
+*.phar binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.bz2 binary
+*.7z binary
+*.rar binary
+
+# 图片：二进制
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.bmp binary
+*.webp binary
+*.avif binary
+*.tif binary
+*.tiff binary
+*.ico binary
+*.svg text eol=lf
+
+# 字体：二进制
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+
+# 多媒体：二进制
+*.mp3 binary
+*.mp4 binary
+*.avi binary
+*.mov binary
+*.wmv binary
+*.flv binary
+*.mkv binary
+*.wav binary
+*.ogg binary
+*.flac binary
+
+# 文档类二进制
+*.pdf binary
+*.doc binary
+*.docx binary
+*.xls binary
+*.xlsx binary
+*.ppt binary
+*.pptx binary
+
+# 语言检测调整
+*.phar linguist-language=PHP
+*.phar linguist-vendored
+
+# git archive 导出忽略（发布包不包含以下开发相关文件）
+.gitattributes export-ignore
+.gitignore export-ignore
+.github export-ignore
+analysis export-ignore
+.php-cs-fixer.php export-ignore
+php-cs-fixer.phar export-ignore

@@ -356,9 +356,9 @@ class ConfigPanel
         $webp_formats = new Text(
             'webp_formats',
             null,
-            'jpg,jpeg,png,avif,tiff,tif',
+            'jpg,jpeg,png,bmp,avif,tiff,tif',
             _t('需要转换为 WebP 的格式'),
-            _t('逗号分隔的扩展名列表，默认 <code>jpg,jpeg,png,avif,tiff,tif</code>。<br>支持格式：<code>jpg/jpeg/png/bmp</code>（GD 库转换）、<code>tif/tiff</code>（需 cwebp 命令行，GD 不支持 TIFF 解码）、<code>avif</code>（AVIF 原图转换为 WebP，供不支持 AVIF 的浏览器回退）。<br>建议不要包含 gif（动图转换会丢失动画）和 webp（已是目标格式）。')
+            _t('逗号分隔的扩展名列表，默认 <code>jpg,jpeg,png,bmp,avif,tiff,tif</code>。<br>支持格式：<code>jpg/jpeg/png/bmp</code>（GD 库转换）、<code>tif/tiff</code>（需 cwebp 命令行，GD 不支持 TIFF 解码）、<code>avif</code>（AVIF 原图转换为 WebP，供不支持 AVIF 的浏览器回退）。<br>建议不要包含 gif（动图转换会丢失动画）、svg（矢量图无需转换）和 webp（已是目标格式）。')
         );
         $webp_formats->setAttribute('class', 'joe_content joe_advanced');
         $webp_formats->addRule('regexp', _t('格式只能包含字母、数字、逗号和空格（大小写均可，内部统一转小写）'), '/^[a-zA-Z0-9, ]+$/');
@@ -382,9 +382,9 @@ class ConfigPanel
         $avif_formats = new Text(
             'avif_formats',
             null,
-            'jpg,jpeg,png,webp,tiff,tif',
+            'jpg,jpeg,png,bmp,webp,tiff,tif',
             _t('需要转换为 AVIF 的格式'),
-            _t('逗号分隔的扩展名列表，默认 <code>jpg,jpeg,png,webp,tiff,tif</code>。<br>支持格式：<code>jpg/jpeg/png/bmp</code>（GD 库转换）、<code>tif/tiff</code>（需 Imagick 扩展编译 libheif，GD 不支持 TIFF 解码）、<code>webp</code>（WebP 原图转换为 AVIF，AVIF 压缩率更高）。<br>建议不要包含 gif（动图转换会丢失动画）、avif（已是目标格式）。')
+            _t('逗号分隔的扩展名列表，默认 <code>jpg,jpeg,png,bmp,webp,tiff,tif</code>。<br>支持格式：<code>jpg/jpeg/png/bmp</code>（GD 库转换）、<code>tif/tiff</code>（需 Imagick 扩展编译 libheif，GD 不支持 TIFF 解码）、<code>webp</code>（WebP 原图转换为 AVIF，AVIF 压缩率更高）。<br>建议不要包含 gif（动图转换会丢失动画）、svg（矢量图无需转换）、avif（已是目标格式）。')
         );
         $avif_formats->setAttribute('class', 'joe_content joe_advanced');
         $avif_formats->addRule('regexp', _t('格式只能包含字母、数字、逗号和空格（大小写均可，内部统一转小写）'), '/^[a-zA-Z0-9, ]+$/');

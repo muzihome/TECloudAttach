@@ -190,10 +190,10 @@ class Image
         if (!self::isWebpSupported()) {
             return false;
         }
-        if ($ext === '' || $ext === 'webp' || $ext === 'gif') {
+        if ($ext === '' || $ext === 'webp' || $ext === 'gif' || $ext === 'svg') {
             return false;
         }
-        $formats = trim((string)($opt->webp_formats ?? 'jpg,jpeg,png,avif,tiff,tif'));
+        $formats = trim((string)($opt->webp_formats ?? 'jpg,jpeg,png,bmp,avif,tiff,tif'));
         if ($formats === '') {
             return false;
         }
@@ -552,10 +552,10 @@ class Image
         if (!self::isAvifSupported()) {
             return false;
         }
-        if ($ext === '' || $ext === 'avif' || $ext === 'gif') {
+        if ($ext === '' || $ext === 'avif' || $ext === 'gif' || $ext === 'svg') {
             return false;
         }
-        $formats = trim((string)($opt->avif_formats ?? 'jpg,jpeg,png,webp,tiff,tif'));
+        $formats = trim((string)($opt->avif_formats ?? 'jpg,jpeg,png,bmp,webp,tiff,tif'));
         if ($formats === '') {
             return false;
         }
