@@ -1,0 +1,66 @@
+name: Mirror-to-Gitee
+
+on:
+  push:
+  delete:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Install git-filter-repo
+        run: |
+          python3 -m pip install git-filter-repo
+
+      - name: Setup SSH for Gitee
+        env:
+          GITEE_PRIVATE_KEY: ${{ secrets.GITEE_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${GITEE_PRIVATE_KEY}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan gitee.com >> ~/.ssh/known_hosts
+          git config --global user.name "Mirror‑Bot"
+          git config --global user.email "mirror@no-reply.local"
+
+      - name: Create temp clone & remove .github from whole history
+        run: |
+          git clone --no-local . ./filter_work
+          cd ./filter_work
+          git filter-repo --path .github --invert-paths --force
+          git remote remove gitee || true
+          git remote add gitee git@gitee.com:muzinext/TECloudAttach.git
+          cd ..
+
+      - name: Push filtered branches to Gitee
+        run: |
+          cd ./filter_work
+          git push gitee refs/heads/*:refs/heads/* --force
+
+      - name: Push original tags (tags cannot filter files)
+        run: |
+          cd ./filter_work
+          git push gitee refs/tags/*:refs/tags/* --force
+
+      - name: Prune branches deleted on GitHub
+        run: |
+          cd ./filter_work
+          LOCAL_BRANCHES=$(git for-each-ref --format='%(refname:short)' refs/heads)
+          GITEE_BRANCHES=$(git ls-remote --heads gitee | awk '{print $2}' | sed 's/refs\/heads\///')
+          for br in $GITEE_BRANCHES; do
+            if ! echo "$LOCAL_BRANCHES" | grep -q "^${br}$"; then
+              git push gitee :${br} || true
+            fi
+          done
+
+      - name: Clean temporary directory
+        run: rm -rf ./filter_work
+
